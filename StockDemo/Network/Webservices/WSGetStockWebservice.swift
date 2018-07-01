@@ -30,7 +30,7 @@ class WSGetStockWebservice: NSObject,WebserviceOperationProtocol {
     }
     func GetStockApiByRequest(requestString:GetStockRequest)
     {
-        let urlString:String = getrequestinstance.getStockUrl
+        let urlString:String = requestString.getStockUrl
         let service:WSWebserviceOperation = WSWebserviceOperation()
         service.delegateWebserviceOperation=self
         service.callWebserviceByRequestString(requestString: urlString as String)
@@ -48,10 +48,20 @@ class WSGetStockWebservice: NSObject,WebserviceOperationProtocol {
     {
         
        let service:GetStockResponse = GetStockResponse()
-       service.resultList=successResponse.object(forKey: "data") as! NSArray
+        service.resultList=successResponse
         
-        if( service.resultList.count>0)
+        if(service.resultList.count>0)
         {
+            for getstockApiResult in service.resultList
+            {
+//                if let idDict = getstockApiResult as? NSMutableArray
+//                {
+//                   // service.stockSymbol.add(idDict.object(forKey: "MSFT") as Any
+//                }
+                
+               
+                
+            }
             GetStockDelegate?.didGetStockApiSuccess(SuccessResponse: service);
         }
         else

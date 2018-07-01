@@ -16,6 +16,7 @@
 		FCA4F61B20E9343B009F010C /* GetStockRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA4F61A20E9343B009F010C /* GetStockRequest.swift */; };
 		FCA4F61E20E93804009F010C /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA4F61D20E93804009F010C /* Constant.swift */; };
 		FCA4F62120E93B95009F010C /* UtilityMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA4F62020E93B95009F010C /* UtilityMethods.swift */; };
+		FCA4F62720E95BEB009F010C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCBF619020E9108500D6163C /* Info.plist */; };
 		FCBF618520E9108200D6163C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBF618420E9108200D6163C /* AppDelegate.swift */; };
 		FCBF618720E9108200D6163C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBF618620E9108200D6163C /* ViewController.swift */; };
 		FCBF618A20E9108200D6163C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCBF618820E9108200D6163C /* Main.storyboard */; };
@@ -396,6 +397,7 @@
 				FCBF618F20E9108500D6163C /* LaunchScreen.storyboard in Resources */,
 				FCBF61C020E922AC00D6163C /* BackgroundCell.png in Resources */,
 				FCBF618C20E9108500D6163C /* Assets.xcassets in Resources */,
+				FCA4F62720E95BEB009F010C /* Info.plist in Resources */,
 				FCBF618A20E9108200D6163C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

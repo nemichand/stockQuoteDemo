@@ -11,23 +11,15 @@ import UIKit
 class GetStockResponse: NSObject
 {
    
-    var resultList:NSArray
-    var introDict:NSDictionary
-    var id:String
-    var title:String
-    var subtitle:String
-    var imageUrl:String
-    var sequence:String
+    var resultList:NSDictionary
+    var stockSymbol:NSMutableArray
    
     override init()
     {
-        id=String()
-        title=String()
-        subtitle=String()
-        imageUrl=String()
-        sequence=String()
-        resultList=NSMutableArray()
-        introDict=NSDictionary()
+        
+        resultList=NSDictionary()
+        stockSymbol=NSMutableArray()
+        
     }
     
     

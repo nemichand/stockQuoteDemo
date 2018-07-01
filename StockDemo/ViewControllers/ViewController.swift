@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,GetStockApiDelegate {
+   
+    
     
     
 
@@ -33,16 +35,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         super.viewDidLoad()
     }
     // MARK: Initialization
-    required init()
-    {
-        didSetupConstraints=false;
-        super.init(nibName: nil, bundle: nil)
-        
+    required init?(coder aDecoder: NSCoder) {
+        didSetupConstraints=false
+        super.init(coder: aDecoder)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+   
+ 
     
     // MARK: Memory  warnings
     override func didReceiveMemoryWarning() {
@@ -100,19 +99,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         {
             UtilityMethods.ShowHudview(LoadView: view);
             let serviceCall:WSGetStockWebservice = WSGetStockWebservice()
-            serviceCall.GetStockDelegate=self as? GetStockApiDelegate
+            serviceCall.GetStockDelegate=self
             let request:GetStockRequest = GetStockRequest()
             request.getStockUrl=BASEURL.GETSTOCKURL;
+            
             serviceCall.GetStockApiByRequest(requestString: request);
         }
         else
         {
-            perform(#selector(ShowNetWorkAlert), with: self, afterDelay: 0.2)
+            ShowNetWorkAlert(title: "Network", message: "Please check your internet connection and try again.")
             
         }
         
         
     }
+    
+    
     @objc func ShowNetWorkAlert(title:String,message:String)
     {
         let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
@@ -124,6 +126,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
         // show the alert
         self.present(alert, animated: true, completion: nil)
+        
+    }
+    func didGetStockApiSuccess(SuccessResponse: GetStockResponse)
+    {
+        
+        
+        
+        
+        
+    }
+    
+    func didGetStockApiFailed(Error: NSError)
+    {
         
     }
 }

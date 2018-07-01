@@ -43,11 +43,11 @@ class WSWebserviceOperation: NSObject,NSURLConnectionDelegate
                 
                 let dictionary = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary
               
-                let status = dictionary.value(forKey: "status") as! String
-                let sts = String(status)
+              
+               
                 DispatchQueue.main.async()
                     {
-                        if sts == "ok"
+                        if (dictionary.count>0)
                         {
                            
                             self.delegateWebserviceOperation?.didResponseSuccess(successResponse: dictionary)
