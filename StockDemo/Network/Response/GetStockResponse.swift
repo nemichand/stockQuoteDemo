@@ -13,12 +13,21 @@ class GetStockResponse: NSObject
    
     var resultList:NSDictionary
     var stockSymbol:NSMutableArray
-   
+    var stockPrice:NSMutableArray
+    var stockHighPrice:NSMutableArray
+    var stockLowPrice:NSMutableArray
+    var stockcompanyName:NSMutableArray
+    var stockavgTotalVolume:NSMutableArray
     override init()
     {
         
         resultList=NSDictionary()
         stockSymbol=NSMutableArray()
+        stockPrice=NSMutableArray()
+        stockHighPrice=NSMutableArray()
+        stockLowPrice=NSMutableArray()
+        stockcompanyName=NSMutableArray()
+        stockavgTotalVolume=NSMutableArray()
         
     }
     

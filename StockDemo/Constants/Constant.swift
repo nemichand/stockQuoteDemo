@@ -11,6 +11,13 @@ import UIKit
 
 let IS_IPHONE = UIDevice.current.userInterfaceIdiom == .phone
 let IS_IPAD = UIDevice.current.userInterfaceIdiom == .pad;
+#if(IS_IPHONE)
+
+let NAV_BAR_HEIGHT=100.0
+#else
+
+let NAV_BAR_HEIGHT=100.0
+#endif
 
 
 struct DeviceType
@@ -40,11 +47,12 @@ struct ScreenSize
 struct AppStringTitles {
 
     static let progressHudTitle = "Loading Please Wait"
+    static let NavbarTitle = "Stock Quote"
     
     
 }
 struct BASEURL
 {
-     static let GETSTOCKURL = "https://api.iextrading.com/1.0/stock/market/batch?symbols=msft,AMGN,AMZN&types=quote,news,chart&range=1m&last=30"
+     static let GETSTOCKURL = "https://api.iextrading.com/1.0/stock/market/batch?symbols=AAPL,MSFT,AMGN,AMZN,GOOG,CSCO&types=quote,news,chart&range=1m&last=30"
     
 }

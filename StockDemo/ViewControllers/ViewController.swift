@@ -8,40 +8,45 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,GetStockApiDelegate {
+class ViewController:CommonViewController ,UITableViewDelegate,UITableViewDataSource,GetStockApiDelegate {
    
     
     
     
 
     //MARK: VariableDeclaration
-      var didSetupConstraints:Bool;
-     var stockQuoteNames:NSMutableArray=NSMutableArray()
+      var didSetupConstraints=false;
+    var stockSymbol:NSMutableArray=NSMutableArray()
+    var stockPrice:NSMutableArray=NSMutableArray()
+    var stockHighPrice:NSMutableArray=NSMutableArray()
+    var stockLowPrice:NSMutableArray=NSMutableArray()
+    var stockcompanyName:NSMutableArray=NSMutableArray()
+    var stockavgTotalVolume:NSMutableArray=NSMutableArray()
+    var stockheader:NSMutableArray=NSMutableArray()
      // MARK: View Methods
     override func loadView()
     {
         super.loadView();
         view = UIView();
+        self.addNavigationBar()
         homeTableview.dataSource = self
         homeTableview.delegate = self
         view.addSubview(homeTableview);
-        
-         self.updateViewConstraints()
+        self.updateViewConstraints()
         self.callGetstockAPI();
     }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+       
     }
-    // MARK: Initialization
-    required init?(coder aDecoder: NSCoder) {
-        didSetupConstraints=false
-        super.init(coder: aDecoder)
-    }
-    
    
- 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        
+    }
     
     // MARK: Memory  warnings
     override func didReceiveMemoryWarning() {
@@ -49,14 +54,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
        
     }
        // MARK: Getter  Methods
-    let homeTableview:UITableView =
+   
+    let homeTableview: UITableView =
     {
-        let homeTableview = UITableView.newAutoLayout()
-        homeTableview.register(UITableViewCell.self, forCellReuseIdentifier: "hometablviewCell")
-       
-        return homeTableview;
+     
+        let  homeTableview:UITableView = UITableView.newAutoLayout()
+        homeTableview.register(HomeVCCustomCell.self, forCellReuseIdentifier: "tableCell")
+         homeTableview.register(customHeaderCellTableViewCell.self, forCellReuseIdentifier: "headertableCell")
+        homeTableview.separatorColor=UIColor.clear
+        
+        return homeTableview
     }()
-    
+   
     // MARK: Set Constraints
     override func updateViewConstraints()
     {
@@ -64,33 +73,74 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if (!didSetupConstraints)
         {
             
-           homeTableview.autoPinEdgesToSuperviewEdges(with: UIEdgeInsetsMake(0, 0, 0, 0))
+            homeTableview.autoPinEdgesToSuperviewEdges(with: UIEdgeInsetsMake(0, 0, 0, 0))
          
         
         didSetupConstraints = true
     }
     super.updateViewConstraints()
 }
+   
      // MARK: tablview Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.stockQuoteNames.count
+        return stockSymbol.count
     }
-    
-    // create a cell for each table view row
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // create a new cell if needed or reuse an old one
-        let cell:UITableViewCell = (self.homeTableview.dequeueReusableCell(withIdentifier:"hometablviewCell") as UITableViewCell?)!
-        
-        // set the text from the data model
+        let cell = homeTableview
+            .dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! HomeVCCustomCell
+        cell.StockSymbolLabel.text=stockSymbol[indexPath.row] as? String
+        let formatter : NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let str = formatter.string(from: stockPrice[indexPath.row] as! NSNumber)!
+        cell.StockPriceLabel.text=str
        
-        
+
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if(DeviceType.IS_IPAD)
+        {
+            return 70
+        }
+        else
+        {
+            return 50
+        }
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerView = UIView()
+      
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: "headertableCell") as! customHeaderCellTableViewCell
+        headerCell.backgroundColor=UIColor.lightText
+        headerView.addSubview(headerCell)
+        return headerView
+       
+ 
+      
+    }
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("You tapped cell number \(indexPath.row).")
+        let DetailVCViewController=detailVCViewController()
+        let formatter : NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let str = formatter.string(from: stockPrice[indexPath.row] as! NSNumber)!
+         DetailVCViewController.companyNameText.text=str
+
+        let strprice = formatter.string(from: stockPrice[indexPath.row] as! NSNumber)!
+        DetailVCViewController.latestPriceText.text=strprice
+        
+        let strstockLowPrice = formatter.string(from: stockLowPrice[indexPath.row] as! NSNumber)!
+        DetailVCViewController.highPriceText.text=strstockLowPrice
+
+        let strstockHighPrice = formatter.string(from: stockHighPrice[indexPath.row] as! NSNumber)!
+        DetailVCViewController.lowPriceText.text=strstockHighPrice
+
+        let stravgTotalVolume = formatter.string(from: stockavgTotalVolume[indexPath.row] as! NSNumber)!
+        DetailVCViewController.avgTotalVolumeText.text=stravgTotalVolume
+     
+        navigationController?.pushViewController(DetailVCViewController, animated: true)
     }
     //MARK:Call Api
     func callGetstockAPI()
@@ -130,16 +180,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     func didGetStockApiSuccess(SuccessResponse: GetStockResponse)
     {
-        
-        
-        
-        
-        
+         UtilityMethods.HideHudview(LoadView: view);
+        stockSymbol=SuccessResponse.stockSymbol
+        stockPrice=SuccessResponse.stockPrice
+        stockcompanyName=SuccessResponse.stockcompanyName
+        stockLowPrice=SuccessResponse.stockLowPrice
+        stockHighPrice=SuccessResponse.stockHighPrice
+        stockavgTotalVolume=SuccessResponse.stockavgTotalVolume
+        self.homeTableview.reloadData()
     }
     
     func didGetStockApiFailed(Error: NSError)
-    {
-        
+    { UtilityMethods.HideHudview(LoadView: view);
+        print("APi Response nil")
     }
+    
 }
 
