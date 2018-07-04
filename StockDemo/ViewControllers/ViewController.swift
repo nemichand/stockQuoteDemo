@@ -125,9 +125,8 @@ class ViewController:CommonViewController ,UITableViewDelegate,UITableViewDataSo
         let DetailVCViewController=detailVCViewController()
         let formatter : NumberFormatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        let str = formatter.string(from: stockPrice[indexPath.row] as! NSNumber)!
-         DetailVCViewController.companyNameText.text=str
-
+       
+        DetailVCViewController.companyNameText.text=(stockcompanyName[indexPath.row] as! String)
         let strprice = formatter.string(from: stockPrice[indexPath.row] as! NSNumber)!
         DetailVCViewController.latestPriceText.text=strprice
         
