@@ -33,12 +33,9 @@ class StockDemoUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
   
-    func testChangeTableRowText() {
+    func test_tableviewCells() {
         let app = XCUIApplication()
-        let tableView = app.tables["MyTable"]
-         XCTAssert(tableView.cells.count == 5)
-        let cell = tableView.cells.containing(.cell, identifier: "3")
-         let cellLabelText = cell.staticTexts.element(boundBy: 0).label
-        XCTAssertEqual(cellLabelText, "")
+        let tableView = app.tables.containing(.table, identifier: "MyTable")
+        XCTAssert(tableView.cells.count == 6)
     }
 }

@@ -59,6 +59,7 @@ class ViewController:CommonViewController ,UITableViewDelegate,UITableViewDataSo
     {
      
         let  homeTableview:UITableView = UITableView.newAutoLayout()
+         homeTableview.accessibilityIdentifier = "MyTable"
         homeTableview.register(HomeVCCustomCell.self, forCellReuseIdentifier: "tableCell")
          homeTableview.register(customHeaderCellTableViewCell.self, forCellReuseIdentifier: "headertableCell")
         homeTableview.separatorColor=UIColor.clear
