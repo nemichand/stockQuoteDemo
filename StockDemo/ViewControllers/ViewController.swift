@@ -108,13 +108,24 @@ class ViewController:CommonViewController ,UITableViewDelegate,UITableViewDataSo
             return 50
         }
     }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if(DeviceType.IS_IPAD)
+        {
+            return 70
+        }
+        else
+        {
+            return 50
+        }
+    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerView = UIView()
       
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "headertableCell") as! customHeaderCellTableViewCell
-        headerCell.backgroundColor=UIColor.lightText
+        headerCell.contentView.backgroundColor=UIColor.lightText
         headerView.addSubview(headerCell)
+        
         return headerView
        
  
